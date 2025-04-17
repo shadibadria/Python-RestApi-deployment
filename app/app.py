@@ -1,15 +1,36 @@
+from dotenv import load_dotenv
 from flask import Flask, jsonify, render_template, request
 import pymysql
+import os
 
 app = Flask(__name__)
 
+#def get_db_connection():
+#    connection = pymysql.connect(host='mydb.cx64aawim9zi.eu-central-1.rds.amazonaws.com',  # Replace with your RDS endpoint
+#                                 user='dbuser',      # Replace with your RDS username
+#                                 password='dbpassword',  # Replace with your RDS password
+#                                 db='devprojdb',   # Replace with your database name
+#                                 charset='utf8mb4',
+#                                 cursorclass=pymysql.cursors.DictCursor)
+#    return connection
+
+
 def get_db_connection():
-    connection = pymysql.connect(host='mydb.cx64aawim9zi.eu-central-1.rds.amazonaws.com',  # Replace with your RDS endpoint
-                                 user='dbuser',      # Replace with your RDS username
-                                 password='dbpassword',  # Replace with your RDS password
-                                 db='devprojdb',   # Replace with your database name
-                                 charset='utf8mb4',
-                                 cursorclass=pymysql.cursors.DictCursor)
+    # Retrieve values from environment variables
+    host = os.getenv('DB_HOST')
+    user = os.getenv('DB_USER')
+    password = os.getenv('DB_PASSWORD')
+    db = os.getenv('DB_NAME')
+
+    # Establish the connection using environment variables
+    connection = pymysql.connect(
+        host=host,
+        user=user,
+        password=password,
+        db=db,
+        charset='utf8mb4',
+        cursorclass=pymysql.cursors.DictCursor
+    )
     return connection
 
 @app.route('/health')
