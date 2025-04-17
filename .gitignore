@@ -1,0 +1,8 @@
+**/.aws
+**/.terraform
+**/terraform
+".terraform/"
+**/.keys
+**/.pytest_cache
+**/*pycache**
+TODO.txt
